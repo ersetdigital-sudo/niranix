@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkout · Niranix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+<style>
+:root{--y:#FFE14F;--n:#192853;--a:#ECF4F7}
+body{font-family:"Manrope",system-ui,sans-serif;line-height:1.6;background:var(--a);color:var(--n)}
+.d{font-family:"Manrope",system-ui,sans-serif;letter-spacing:-.02em;line-height:1.1}
+.chip.on{background:var(--n);color:var(--y)}
+.nom.on{background:var(--y);border-color:var(--n)}
+@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.up{opacity:0;animation:up .8s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.fl{animation:up .8s cubic-bezier(.2,.8,.2,1) both,fl 5s ease-in-out 1s infinite}
+@keyframes hl{from{background-size:0 100%}to{background-size:100% 100%}}
+.hl{display:inline}
+.tg{background:linear-gradient(90deg,#192853,#3b5bdb,#192853);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 4s linear infinite}@keyframes sh{to{background-position:-200% 0}}
+.cur::after{content:"|";animation:bl 1s steps(1) infinite;margin-left:2px}@keyframes bl{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.up,.fl,.hl{display:inline}
+.tg{background:linear-gradient(90deg,#192853,#3b5bdb,#192853);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 4s linear infinite}@keyframes sh{to{background-position:-200% 0}}}
+details summary::-webkit-details-marker{display:none}
+details[open] .pl{transform:rotate(45deg)}
+.ft.on{background:var(--n);color:var(--y);border-color:var(--n)}
+.svc{opacity:0;animation:up .5s cubic-bezier(.2,.8,.2,1) forwards}
+</style><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"><style>body,.d{font-family:"Plus Jakarta Sans",system-ui,sans-serif!important}.d{letter-spacing:-.025em}.pvb.on{border-color:#192853;box-shadow:0 0 0 3px #FFE14F}.pvb.on .ck{display:grid}</style><style>.lgo{background:center/contain no-repeat}</style>
+<link rel="stylesheet" href="/assets/logos.css">
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'Manrope'; src: url("../../fonts/manrope-wght--extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url("../../fonts/manrope-wght--light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url("../../fonts/manrope-wght--regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url("../../fonts/manrope-wght--medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url("../../fonts/manrope-wght--semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url("../../fonts/manrope-wght--bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Manrope'; src: url("../../fonts/manrope-wght--extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Plus Jakarta Sans'; src: url("../../fonts/plusjakartasans-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }</style></head>
+<body>
+<header class="sticky top-0 z-50 bg-[#ECF4F7]/85 backdrop-blur-lg border-b border-[#192853]/10">
+<nav class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
+<a href="/" class="flex items-center gap-2.5 shrink-0"><svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22377a"></stop><stop offset="1" stop-color="#192853"></stop></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#lg)"></rect><path d="M9 28V12l10 16V12" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M26 9h5l-3 7h4l-8 14 2.5-9H23z" fill="#FFE14F"></path></svg><span class="d text-[22px] font-extrabold tracking-tight">niranix<span class="text-[#e8c400]">.</span></span></a>
+<div class="hidden lg:flex items-center gap-1 text-sm font-semibold bg-[#192853]/5 rounded-full p-1"><a href="/" class="px-3.5 py-2 rounded-full transition hover:bg-white/70">Beranda</a><a href="/#layanan" class="px-3.5 py-2 rounded-full transition hover:bg-white/70">Layanan</a><a href="/#promo" class="px-3.5 py-2 rounded-full transition hover:bg-white/70">Promo</a><a href="/cek-transaksi" class="px-3.5 py-2 rounded-full transition hover:bg-white/70">Cek Transaksi</a><a href="/bantuan" class="px-3.5 py-2 rounded-full transition hover:bg-white/70">Bantuan</a></div>
+<div class="flex items-center gap-2"><a href="/#beli" class="bg-[#192853] text-[#FFE14F] px-5 py-2.5 rounded-full text-sm font-bold hover:scale-105 transition">Order kilat</a>
+<button onclick="document.getElementById('mm').classList.toggle('hidden')" class="lg:hidden w-10 h-10 rounded-full bg-white grid place-items-center" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#192853" stroke-width="2.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button></div>
+</nav>
+<div id="mm" class="hidden lg:hidden px-5 pb-4"><div class="bg-white rounded-2xl p-2 shadow-lg"><a href="/" class="block px-4 py-3 rounded-xl font-bold hover:bg-[#ECF4F7]">Beranda</a><a href="/#layanan" class="block px-4 py-3 rounded-xl font-bold hover:bg-[#ECF4F7]">Layanan</a><a href="/#promo" class="block px-4 py-3 rounded-xl font-bold hover:bg-[#ECF4F7]">Promo</a><a href="/cek-transaksi" class="block px-4 py-3 rounded-xl font-bold hover:bg-[#ECF4F7]">Cek Transaksi</a><a href="/bantuan" class="block px-4 py-3 rounded-xl font-bold hover:bg-[#ECF4F7]">Bantuan</a></div></div>
+</header>
+<main class="max-w-5xl mx-auto px-5 pt-8 md:pt-14 pb-36 lg:pb-16">
+<ol class="flex items-center gap-2 text-xs font-bold mb-6"><li class="bg-[#192853] text-[#FFE14F] rounded-full px-3 py-1.5">1 Detail</li><li class="opacity-30">—</li><li id="s2" class="bg-[#192853] text-[#FFE14F] rounded-full px-3 py-1.5">2 Pembayaran</li><li class="opacity-30">—</li><li id="s3" class="bg-white rounded-full px-3 py-1.5">3 Selesai</li></ol>
+<div id="A" class="grid lg:grid-cols-[1.4fr_1fr] gap-8 items-start">
+<div class="space-y-5">
+<div class="up bg-white rounded-3xl p-6 md:p-7"><p class="d text-2xl font-extrabold">Pilih metode bayar</p><div id="pm" class="mt-4 grid sm:grid-cols-2 gap-3"></div></div>
+<div class="up bg-white rounded-3xl p-6 md:p-7" style="animation-delay:.1s"><p class="font-bold">Kirim bukti &amp; notifikasi ke <span class="opacity-40 font-semibold">(opsional)</span></p><input id="em" type="email" placeholder="email@kamu.com" class="mt-3 w-full px-5 py-4 rounded-2xl bg-[#ECF4F7] outline-none font-semibold focus:ring-2 focus:ring-[#192853]">
+<div class="mt-4 flex gap-2"><input id="pc" placeholder="Kode promo" class="flex-1 min-w-0 px-5 py-3 rounded-2xl bg-[#ECF4F7] outline-none font-semibold uppercase"><button id="ap" class="bg-[#FFE14F] font-bold rounded-2xl px-5">Pakai</button></div><p id="pmsg" class="text-sm font-semibold mt-2"></p></div>
+</div>
+<aside class="up lg:sticky lg:top-24 bg-[#192853] text-white rounded-[2rem] p-6 md:p-7" style="animation-delay:.15s"><p class="d text-xl font-extrabold">Pesananmu</p>
+<dl id="sm" class="mt-4 space-y-3 text-sm"></dl>
+<div class="mt-5 pt-5 border-t border-dashed border-white/20 flex justify-between items-end"><span class="text-white/50 text-sm">Total bayar</span><span id="tt" class="d text-3xl font-extrabold text-[#FFE14F]"></span></div>
+<label class="mt-5 flex gap-2 text-xs text-white/60"><input id="ok" type="checkbox" class="mt-0.5 accent-[#FFE14F]">Data yang aku isi sudah benar. Transaksi sukses tidak bisa dibatalkan.</label>
+<button id="pay" disabled="" class="mt-4 w-full bg-[#FFE14F] text-[#192853] font-bold rounded-2xl py-4 disabled:opacity-40 transition">Bayar sekarang</button></aside>
+</div>
+<div id="B" class="hidden max-w-xl mx-auto"></div>
+<div id="mb" style="display:none" class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-[#192853]/10 px-5 pt-3 pb-[max(12px,env(safe-area-inset-bottom))] shadow-[0_-10px_30px_-15px_rgba(25,40,83,.3)]"><div class="flex items-center gap-3"><div class="min-w-0 flex-1"><p id="mi" class="text-xs opacity-60 truncate">Pilih metode bayar</p><p id="mt" class="text-2xl font-extrabold leading-tight">Rp0</p></div><button id="mgo" disabled="" class="bg-[#192853] text-[#FFE14F] font-bold rounded-2xl px-6 py-3.5 disabled:opacity-40">Bayar →</button></div></div>
+</main>
+<script>
+const LK=["Telkomsel","Indosat","XL","Axis","Smartfren","DANA","OVO","GoPay","ShopeePay","LinkAja","PLN","Biznet","First Media","Transvision","Mobile Legends","Genshin Impact","Valorant","Adira","FIF","Home Credit","BPJS","BCA","BRI","Mandiri","QRIS"];const lg=n=>{const k=LK.find(k=>n.startsWith(k));return k?"L-"+k.replace(/ /g,""):null};
+const Q=Object.fromEntries(new URLSearchParams(location.search));const PM=[["QRIS", "Scan dari semua e-wallet & m-banking", 0], ["BCA Virtual Account", "Konfirmasi otomatis", 1000], ["BRI Virtual Account", "Konfirmasi otomatis", 1000], ["Mandiri Virtual Account", "Konfirmasi otomatis", 1000], ["DANA", "Bayar langsung dari aplikasi", 0], ["OVO", "Bayar langsung dari aplikasi", 0], ["GoPay", "Bayar langsung dari aplikasi", 0], ["ShopeePay", "Bayar langsung dari aplikasi", 0]];const rp=n=>"Rp"+(+n).toLocaleString("id-ID");
+if(!Q.a){A.innerHTML='<div class="bg-white rounded-3xl p-8 text-center lg:col-span-2"><p class="d text-2xl font-extrabold">Keranjangmu kosong</p><a href="/#layanan" class="inline-block mt-4 bg-[#192853] text-[#FFE14F] font-bold rounded-full px-6 py-3">Pilih layanan</a></div>'}
+let M=null,disc=0;
+pm.innerHTML=PM.map((m,i)=>`<button data-i="${i}" class="nom text-left rounded-2xl border-2 border-[#192853]/10 p-4 hover:border-[#192853] transition">${lg(m[0])?`<span class="lgo ${lg(m[0])} block w-[110px] h-6 mb-2" style="background-position:left center"></span>`:""}<b class="block text-sm">${m[0]}</b><span class="text-xs opacity-60">${m[1]} · ${m[2]?"+"+rp(m[2]):"Gratis biaya"}</span></button>`).join("");
+const tot=()=>Math.max(0,+Q.a+(M?M[2]:0)-disc);
+const draw=()=>{sm.innerHTML=[["Layanan",Q.s],["Provider",Q.p],["Produk",Q.i],["Tujuan",Q.n],["Harga",rp(Q.a)],["Biaya metode",M?rp(M[2]):"-"],...(disc?[["Diskon promo","-"+rp(disc)]]:[])].map(([a,b])=>`<div class="flex justify-between gap-3"><dt class="text-white/50">${a}</dt><dd class="font-bold text-right">${b}</dd></div>`).join("");tt.textContent=rp(tot());pay.disabled=!(M&&ok.checked)};
+pm.onclick=e=>{const b=e.target.closest("button");if(!b)return;pm.querySelectorAll("button").forEach(z=>z.classList.remove("on"));b.classList.add("on");M=PM[b.dataset.i];draw()};
+ok.onchange=draw;
+ap.onclick=()=>{const c=pc.value.trim().toUpperCase();if(c=="NIRANIX10"&&/PLN/.test(Q.s)){disc=Math.min(10000,Math.round(Q.a*.1));pmsg.className="text-sm font-semibold mt-2 text-green-700";pmsg.textContent="Promo dipakai, hemat "+rp(disc)}else{disc=0;pmsg.className="text-sm font-semibold mt-2 text-red-600";pmsg.textContent=c=="NIRANIX10"?"Kode ini khusus Token PLN.":"Kode promo nggak valid."}draw()};
+pay.onclick=()=>{const id="NRX-"+Date.now().toString().slice(-6);const qr=M[0]=="QRIS",va=/Virtual/.test(M[0]);
+A.classList.add("hidden");B.classList.remove("hidden");s3.className="bg-[#192853] text-[#FFE14F] rounded-full px-3 py-1.5";scrollTo(0,0);
+let sec=900;B.innerHTML=`<div class="up bg-white rounded-[2rem] p-7 md:p-9 text-center shadow-[0_20px_50px_-25px_rgba(25,40,83,.4)]"><p class="text-xs font-bold uppercase tracking-widest opacity-50">Selesaikan dalam <span id="cd">15:00</span></p><p class="d text-4xl font-extrabold mt-2">${rp(tot())}</p><p class="text-sm opacity-60 mt-1">${M[0]} · ${id}</p>
+${qr?`<div class="mt-6 mx-auto w-52 h-52 rounded-2xl bg-[#ECF4F7] p-4 grid grid-cols-8 gap-1">${Array.from({length:64},(_,i)=>`<span class="rounded-sm ${((i*37+i%5)%3)?'bg-[#192853]':''}"></span>`).join("")}</div><p class="text-xs opacity-50 mt-3">Scan pakai e-wallet atau m-banking apa aja.</p>`:va?`<div class="mt-6 bg-[#ECF4F7] rounded-2xl p-5"><p class="text-xs opacity-50">Nomor Virtual Account</p><p class="font-mono text-2xl font-bold tracking-wider mt-1">8808 ${Q.n.slice(-4).padStart(4,"0")} ${id.slice(-6)}</p></div>`:`<div class="mt-6 bg-[#ECF4F7] rounded-2xl p-5 text-sm">Notifikasi pembayaran dikirim ke aplikasi ${M[0]} kamu.</div>`}
+<button id="cf" class="mt-6 w-full bg-[#192853] text-[#FFE14F] font-bold rounded-2xl py-4">Saya sudah bayar</button><a href="/" class="block mt-3 text-sm font-bold opacity-50">Batalkan</a></div>`;
+const tm=setInterval(()=>{sec--;if(window.cd)cd.textContent=String(sec/60|0).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");if(sec<=0)clearInterval(tm)},1000);
+cf.onclick=()=>{clearInterval(tm);cf.textContent="Mengecek pembayaran...";setTimeout(()=>{B.innerHTML=`<div class="up bg-[#192853] text-white rounded-[2rem] p-8 md:p-10 text-center"><div class="w-16 h-16 mx-auto rounded-full bg-[#FFE14F] text-[#192853] grid place-items-center text-3xl font-bold">✓</div><p class="d text-3xl font-extrabold mt-5">Transaksi berhasil!</p><p class="text-white/60 mt-2">${Q.i} untuk ${Q.n} sudah terkirim.</p><div class="mt-6 bg-white/10 rounded-2xl p-4 text-sm flex justify-between"><span class="text-white/50">ID Transaksi</span><b>${id}</b></div><div class="mt-6 grid sm:grid-cols-2 gap-3"><a href="/cek-transaksi" class="bg-[#FFE14F] text-[#192853] font-bold rounded-2xl py-3.5">Lihat detail</a><a href="/#layanan" class="bg-white/10 font-bold rounded-2xl py-3.5">Beli lagi</a></div></div>`},1500)}};
+draw();
+
+mgo.onclick=()=>pay.click();
+const sync=()=>{const p=document.getElementById("pay"),t=document.getElementById("tt");if(!Q.a||!p||!t||A.classList.contains("hidden")){mb.style.display="none";return}mb.style.display="";mt.textContent=t.textContent;mgo.disabled=p.disabled;mi.textContent=p.disabled?"Pilih metode bayar":"Total pembayaran"};
+mgo.onclick=()=>document.getElementById("pay").click();
+setInterval(sync,300);sync();
+</script>
+<footer class="hidden lg:block bg-[#192853] text-white mt-10 rounded-t-[2.5rem] overflow-hidden relative">
+<div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-[#FFE14F]/10 blur-3xl"></div>
+<div class="max-w-6xl mx-auto px-5 pt-16 pb-8 relative">
+<div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+<div><a href="/" class="flex items-center gap-2.5 shrink-0"><svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22377a"></stop><stop offset="1" stop-color="#192853"></stop></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#lg2)"></rect><path d="M9 28V12l10 16V12" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M26 9h5l-3 7h4l-8 14 2.5-9H23z" fill="#FFE14F"></path></svg><span class="d text-[22px] font-extrabold tracking-tight">niranix<span class="text-[#FFE14F]">.</span></span></a><p class="text-white/60 mt-4 max-w-xs text-sm">Pulsa, kuota, token, tagihan, sampai top up game. Bayar sekali, beres dalam hitungan detik.</p>
+<div class="mt-5 inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 text-xs font-semibold"><span class="w-2 h-2 rounded-full bg-[#4ade80] animate-pulse"></span>Semua sistem normal</div></div>
+<div><p class="text-xs font-bold uppercase tracking-widest text-[#FFE14F]">Produk</p><ul class="mt-4 space-y-2.5 text-sm text-white/70"><li><a href="/#layanan" class="hover:text-white">Pulsa &amp; Data</a></li><li><a href="/#layanan" class="hover:text-white">Token PLN</a></li><li><a href="/#layanan" class="hover:text-white">Top Up Game</a></li><li><a href="/#layanan" class="hover:text-white">E-Wallet</a></li></ul></div>
+<div><p class="text-xs font-bold uppercase tracking-widest text-[#FFE14F]">Bantuan</p><ul class="mt-4 space-y-2.5 text-sm text-white/70"><li><a href="/cek-transaksi" class="hover:text-white">Cek Transaksi</a></li><li><a href="/bantuan" class="hover:text-white">Pusat Bantuan</a></li><li><a href="/bantuan#kontak" class="hover:text-white">Hubungi Kami</a></li><li><a href="/#promo" class="hover:text-white">Promo</a></li></ul></div>
+<div><p class="text-xs font-bold uppercase tracking-widest text-[#FFE14F]">Info terbaru</p><p class="mt-4 text-sm text-white/70">Kode promo langsung ke inbox.</p><form onsubmit="event.preventDefault();this.innerHTML='&lt;p class=&quot;text-sm font-bold text-[#FFE14F]&quot;&gt;Sip, kamu udah terdaftar ✓&lt;/p&gt;'" class="mt-3 flex bg-white/10 rounded-full p-1"><input type="email" required="" placeholder="Email kamu" class="bg-transparent px-4 text-sm w-full outline-none placeholder:text-white/40"><button class="bg-[#FFE14F] text-[#192853] rounded-full w-9 h-9 shrink-0 font-bold">→</button></form></div>
+</div>
+<div class="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-3 justify-between text-xs text-white/40"><p>© 2026 Niranix Digital. Semua hak dilindungi.</p><p>QRIS · VA Bank · DANA · OVO · GoPay · ShopeePay</p></div>
+</div>
+</footer></body></html>

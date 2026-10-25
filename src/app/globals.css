@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #192853;
+  --color-navy-deep: #101b3a;
+  --color-sun: #ffe14f;
+  --color-sun-deep: #e8c400;
+  --color-mist: #ecf4f7;
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  background: var(--color-mist);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-mist);
+  color: var(--color-navy);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-sun);
+  color: var(--color-navy);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-navy);
+  outline-offset: 2px;
+}
+
+.d {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+@keyframes up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.up {
+  opacity: 0;
+  animation: up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.fl {
+  animation: up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    float 5s ease-in-out 1.2s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.cur::after {
+  content: "|";
+  margin-left: 2px;
+  animation: blink 1s steps(1) infinite;
+}
+
+.svc {
+  opacity: 0;
+  animation: up 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] .pl {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .up,
+  .fl,
+  .svc {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .cur::after {
+    animation: none;
+  }
+}
