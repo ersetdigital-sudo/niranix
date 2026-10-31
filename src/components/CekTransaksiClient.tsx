@@ -2,31 +2,70 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import {
-  ADMIN_WHATSAPP_URL,
-  formatRupiah,
-} from "@/lib/catalog";
-import { findOrder, type Order } from "@/lib/store";
+import { useCallback, useEffect, useState } from "react";
+import { ADMIN_WHATSAPP_URL, formatRupiah } from "@/lib/catalog";
+
+type PublicStatus = "success" | "processing" | "pending" | "expired";
+
+type SearchOrder = {
+  inv: string;
+  status: PublicStatus;
+  service: string;
+  product: string;
+  lines: [string, string][];
+  method: string;
+  total: number;
+  sn: string;
+  label: string;
+  created: number;
+  updated: number;
+  paidAt?: number;
+};
+
+const statusText: Record<PublicStatus, string> = {
+  pending: "Menunggu pembayaran",
+  processing: "Sedang diproses",
+  success: "Selesai",
+  expired: "Dibatalkan",
+};
+
+function formatDate(value: number) {
+  return new Date(value).toLocaleString("id-ID", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+}
 
 export function CekTransaksiClient() {
   const params = useSearchParams();
   const initialId = params.get("id") ?? "";
   const [query, setQuery] = useState(initialId);
-  const [result, setResult] = useState<Order | null>(null);
+  const [result, setResult] = useState<SearchOrder | null>(null);
   const [searched, setSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const search = useCallback(async (value: string) => {
+    const term = value.trim();
+    setQuery(term);
+    if (!term) return;
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `/api/orders/lookup?q=${encodeURIComponent(term)}`,
+        { cache: "no-store" },
+      );
+      setResult(response.ok ? ((await response.json()) as SearchOrder) : null);
+    } catch {
+      setResult(null);
+    } finally {
+      setSearched(true);
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    if (!initialId) return;
-    setQuery(initialId);
-    setResult(findOrder(initialId));
-    setSearched(true);
-  }, [initialId]);
-
-  function search(value: string) {
-    setResult(findOrder(value));
-    setSearched(true);
-  }
+    if (initialId) void search(initialId);
+  }, [initialId, search]);
 
   return (
     <main className="mx-auto max-w-6xl px-5 pb-16 pt-12 md:pt-20">
@@ -49,7 +88,7 @@ export function CekTransaksiClient() {
             className="mt-8 flex flex-col gap-2 rounded-3xl bg-white p-3 shadow-[0_20px_50px_-25px_rgba(25,40,83,0.4)] sm:flex-row"
             onSubmit={(event) => {
               event.preventDefault();
-              search(query);
+              void search(query);
             }}
           >
             <label htmlFor="track-query" className="sr-only">
@@ -59,20 +98,21 @@ export function CekTransaksiClient() {
               id="track-query"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="NRX-XXXXX atau 08xx"
+              placeholder="NRX-XXXXXX atau 08xx"
               autoComplete="off"
               className="min-w-0 flex-1 rounded-2xl bg-mist px-5 py-4 font-semibold outline-none focus:ring-2 focus:ring-navy focus-visible:outline-none!"
             />
             <button
               type="submit"
-              className="rounded-2xl bg-navy px-7 py-4 font-bold text-sun transition hover:scale-[1.02]"
+              disabled={loading}
+              className="rounded-2xl bg-navy px-7 py-4 font-bold text-sun transition hover:scale-[1.02] disabled:opacity-60"
             >
-              Lacak →
+              {loading ? "Mencari…" : "Lacak →"}
             </button>
           </form>
 
           <p className="mt-3 text-xs text-navy/50">
-            Kode transaksi muncul setelah pembayaran dikonfirmasi.
+            Kode transaksi muncul setelah pembayaran dibuat.
           </p>
 
           <div className="mt-10 grid grid-cols-3 gap-3 text-center">
@@ -114,6 +154,10 @@ export function CekTransaksiClient() {
                 </p>
               </div>
             </div>
+          ) : loading ? (
+            <div className="relative grid min-h-[340px] place-items-center py-16 text-center">
+              <p className="d text-2xl font-bold">Mencari transaksi…</p>
+            </div>
           ) : result ? (
             <OrderResult order={result} />
           ) : (
@@ -127,8 +171,8 @@ export function CekTransaksiClient() {
                 </div>
                 <p className="d mt-5 text-2xl font-bold">Belum ketemu</p>
                 <p className="mx-auto mt-2 max-w-xs text-sm text-white/50">
-                  Transaksi dengan kode atau nomor itu tidak ada di perangkat ini.
-                  Cek lagi datanya, atau tanya admin.
+                  Transaksi dengan kode atau nomor itu tidak ditemukan. Cek lagi
+                  datanya, atau tanya admin.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2 text-sm">
                   <Link
@@ -155,16 +199,14 @@ export function CekTransaksiClient() {
   );
 }
 
-function OrderResult({ order }: { order: Order }) {
+function OrderResult({ order }: { order: SearchOrder }) {
   const [copied, setCopied] = useState(false);
-  const createdAt = new Date(order.createdAt).toLocaleString("id-ID", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+  const target =
+    order.lines.find(([label]) => /tujuan/i.test(label))?.[1] ?? "-";
 
   async function copyCode() {
     try {
-      await navigator.clipboard.writeText(order.id);
+      await navigator.clipboard.writeText(order.inv);
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
@@ -179,10 +221,10 @@ function OrderResult({ order }: { order: Order }) {
           <p className="text-xs font-bold uppercase tracking-widest text-white/50">
             ID Transaksi
           </p>
-          <p className="d mt-1 text-2xl font-extrabold">{order.id}</p>
+          <p className="d mt-1 text-2xl font-extrabold">{order.inv}</p>
         </div>
         <span className="rounded-full bg-sun px-3 py-1.5 text-xs font-bold text-navy">
-          ● Sedang diproses
+          ● {statusText[order.status]}
         </span>
       </div>
 
@@ -190,20 +232,20 @@ function OrderResult({ order }: { order: Order }) {
         <div className="rounded-2xl bg-white/5 p-4">
           <p className="text-xs text-white/50">Produk</p>
           <p className="mt-1 font-bold">
-            {order.title} {order.item}
+            {order.product || order.service}
           </p>
         </div>
         <div className="rounded-2xl bg-white/5 p-4">
           <p className="text-xs text-white/50">Total bayar</p>
-          <p className="mt-1 font-bold">{formatRupiah(order.amount)}</p>
+          <p className="mt-1 font-bold">{formatRupiah(order.total)}</p>
         </div>
         <div className="rounded-2xl bg-white/5 p-4">
-          <p className="text-xs text-white/50">Provider</p>
-          <p className="mt-1 font-bold">{order.provider}</p>
+          <p className="text-xs text-white/50">Layanan</p>
+          <p className="mt-1 font-bold">{order.service}</p>
         </div>
         <div className="rounded-2xl bg-white/5 p-4">
           <p className="text-xs text-white/50">Tujuan</p>
-          <p className="mt-1 truncate font-bold">{order.target}</p>
+          <p className="mt-1 truncate font-bold">{target}</p>
         </div>
       </div>
 
@@ -211,7 +253,7 @@ function OrderResult({ order }: { order: Order }) {
         <div className="min-w-0">
           <p className="text-xs font-bold opacity-60">Kode invoice</p>
           <p className="truncate font-mono text-lg font-bold tracking-wider">
-            {order.id}
+            {order.inv}
           </p>
         </div>
         <button
@@ -223,6 +265,17 @@ function OrderResult({ order }: { order: Order }) {
         </button>
       </div>
 
+      {order.sn ? (
+        <div className="mt-3 rounded-2xl border border-sun/40 bg-white/10 p-4">
+          <p className="text-xs font-bold uppercase tracking-widest text-white/50">
+            {order.label}
+          </p>
+          <p className="d mt-1 break-all text-lg font-extrabold text-sun">
+            {order.sn}
+          </p>
+        </div>
+      ) : null}
+
       <ol className="mt-7 space-y-5">
         <li className="flex gap-4">
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-sun font-bold text-navy">
@@ -230,7 +283,9 @@ function OrderResult({ order }: { order: Order }) {
           </span>
           <div>
             <p className="font-bold">Pesanan dibuat</p>
-            <p className="text-xs text-white/50">{createdAt} WIB</p>
+            <p className="text-xs text-white/50">
+              {formatDate(order.created)} WIB
+            </p>
           </div>
         </li>
         <li className="flex gap-4">
@@ -238,26 +293,38 @@ function OrderResult({ order }: { order: Order }) {
             <span className="h-2 w-2 rounded-full bg-sun" />
           </span>
           <div>
-            <p className="font-bold">Menunggu verifikasi admin</p>
+            <p className="font-bold">{statusText[order.status]}</p>
             <p className="text-xs text-white/50">
-              Pembayaran QRIS dicek manual. Simpan kode invoice ini.
+              {order.status === "pending"
+                ? "Selesaikan pembayaran QRIS sesuai nominal."
+                : order.status === "processing"
+                  ? "Pembayaran QRIS dicek manual oleh admin."
+                  : order.status === "success"
+                    ? "Pembayaran diterima dan pesanan sudah diproses."
+                    : "Transaksi dibatalkan atau kedaluwarsa."}
             </p>
           </div>
         </li>
-        <li className="flex gap-4 opacity-35">
+        <li
+          className={`flex gap-4 ${
+            order.status === "success" ? "" : "opacity-35"
+          }`}
+        >
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/30">
             3
           </span>
           <div>
-            <p className="font-bold">Pesanan diproses</p>
-            <p className="text-xs text-white/50">Setelah pembayaran terverifikasi.</p>
+            <p className="font-bold">Pesanan selesai</p>
+            <p className="text-xs text-white/50">
+              Produk terkirim setelah pembayaran terverifikasi.
+            </p>
           </div>
         </li>
       </ol>
 
       <a
         href={`${ADMIN_WHATSAPP_URL}?text=${encodeURIComponent(
-          `Halo admin Niranix, saya ingin cek transaksi ${order.id}.`,
+          `Halo admin Niranix, saya ingin cek transaksi ${order.inv}.`,
         )}`}
         target="_blank"
         rel="noopener noreferrer"

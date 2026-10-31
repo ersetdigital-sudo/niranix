@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CatalogGrid } from "@/components/CatalogGrid";
 import { QuickOrder } from "@/components/QuickOrder";
 import { WordRotator } from "@/components/WordRotator";
+import { getStorefront } from "@/lib/catalog-hydrate";
 
 const faqs = [
   {
@@ -67,7 +68,9 @@ const testimonials = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const storefront = await getStorefront();
+
   return (
     <main>
       <section className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-16 pt-12 md:pt-20 lg:grid-cols-[1.15fr_1fr]">
@@ -196,7 +199,7 @@ export default function HomePage() {
             tanpa biaya tersembunyi.
           </p>
         </div>
-        <QuickOrder />
+        <QuickOrder services={storefront.services} />
       </section>
 
       <section id="cara" className="scroll-mt-20 bg-navy py-20 text-white">

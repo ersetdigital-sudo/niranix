@@ -8,11 +8,11 @@ import {
   normalizePhone,
   priceList,
   quickServices,
-  services,
-  simulateBill,
   type PriceItem,
+  type Service,
   type Slug,
 } from "@/lib/catalog";
+import { billItemFor } from "@/lib/catalog-hydrate";
 
 const defaults: Record<string, string | null> = {
   pulsa: null,
@@ -23,7 +23,7 @@ const defaults: Record<string, string | null> = {
   pdam: "PDAM Jakarta",
 };
 
-export function QuickOrder() {
+export function QuickOrder({ services }: { services: Record<string, Service> }) {
   const router = useRouter();
   const [slug, setSlug] = useState<Slug>("pulsa");
   const [target, setTarget] = useState("");
@@ -32,16 +32,13 @@ export function QuickOrder() {
 
   const service = services[slug];
   const list = priceList(service, provider);
-  const bill =
-    service.bill && target.trim().length > 5
-      ? simulateBill(target + (provider ?? ""))
-      : null;
-  const billItem: PriceItem | null =
-    bill !== null ? [`Tagihan ${provider ?? ""}`, bill] : null;
-  const effectiveItem = service.bill ? billItem : selected;
   const targetValid = service.auto
     ? normalizePhone(target).length >= 10
     : target.trim().length >= 6;
+  const billItem: PriceItem | null = targetValid
+    ? billItemFor(service, provider)
+    : null;
+  const effectiveItem = service.bill ? billItem : selected;
   const canPay = !!provider && !!effectiveItem && targetValid;
 
   function chooseService(next: Slug) {
@@ -70,6 +67,8 @@ export function QuickOrder() {
       i: effectiveItem[0],
       n: target.trim(),
       a: String(effectiveItem[1]),
+      sid: service.dbServiceId ?? "",
+      pid: effectiveItem[2] ?? "",
     });
     router.push(`/checkout/?${params.toString()}`);
   }
@@ -140,7 +139,7 @@ export function QuickOrder() {
               <div>
                 <b className="block text-sm">{billItem[0]}</b>
                 <span className="text-xs opacity-60">
-                  Termasuk admin · contoh tagihan
+                  Nominal tagihan dari katalog
                 </span>
               </div>
               <b className="d whitespace-nowrap text-xl">{formatRupiah(billItem[1])}</b>

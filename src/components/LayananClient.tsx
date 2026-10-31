@@ -6,24 +6,19 @@ import { useEffect, useState } from "react";
 import {
   detectOperator,
   formatRupiah,
-  isSlug,
   normalizePhone,
   priceList,
   providerLogoClass,
-  services,
-  simulateBill,
   type PriceItem,
-  type Slug,
+  type Service,
 } from "@/lib/catalog";
+import { billItemFor } from "@/lib/catalog-hydrate";
 import { ProviderLogo } from "./ProviderLogo";
 
-export function LayananClient() {
+export function LayananClient({ service }: { service: Service }) {
   const router = useRouter();
   const params = useSearchParams();
-  const requested = params.get("s");
-  const slug: Slug = isSlug(requested) ? requested : "pulsa";
-  const service = services[slug];
-  const query = params.toString();
+  const slug = service.slug;
 
   const [target, setTarget] = useState(params.get("n") ?? "");
   const [provider, setProvider] = useState<string | null>(
@@ -32,23 +27,16 @@ export function LayananClient() {
   const [item, setItem] = useState<PriceItem | null>(null);
 
   useEffect(() => {
-    const next = services[slug];
-    setProvider(next.auto ? null : next.providers[0]);
-    setItem(null);
-    setTarget(new URLSearchParams(query).get("n") ?? "");
-    document.title = `${next.title} · Niranix`;
-  }, [slug, query]);
+    document.title = `${service.title} · Niranix`;
+  }, [service.title]);
 
   const list = priceList(service, provider);
   const targetValid = service.auto
     ? normalizePhone(target).length >= 10
     : target.trim().length >= 6;
-  const billAmount =
-    service.bill && target.trim().length > 5
-      ? simulateBill(target + (provider ?? ""))
-      : null;
-  const billItem: PriceItem | null =
-    billAmount !== null ? [`Tagihan ${provider ?? ""}`, billAmount] : null;
+  const billItem: PriceItem | null = targetValid
+    ? billItemFor(service, provider)
+    : null;
   const effectiveItem = service.bill ? billItem : item;
   const canPay = targetValid && !!provider && !!effectiveItem;
 
@@ -76,6 +64,8 @@ export function LayananClient() {
       i: effectiveItem[0],
       n: target.trim(),
       a: String(effectiveItem[1]),
+      sid: service.dbServiceId ?? "",
+      pid: effectiveItem[2] ?? "",
     });
     router.push(`/checkout/?${next.toString()}`);
   }
@@ -238,7 +228,7 @@ export function LayananClient() {
                   <div>
                     <b className="block">{billItem[0]}</b>
                     <span className="text-xs opacity-60">
-                      a.n. Pelanggan {target.trim().slice(-4)} · termasuk admin Rp2.500
+                      a.n. Pelanggan {target.trim().slice(-4)} · nominal dari katalog
                     </span>
                   </div>
                   <b className="d whitespace-nowrap text-xl">

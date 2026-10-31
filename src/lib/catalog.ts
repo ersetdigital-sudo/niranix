@@ -17,7 +17,7 @@ export type Slug =
 
 export type Category = "Isi ulang" | "Tagihan rumah" | "Lainnya";
 
-export type PriceItem = [string, number];
+export type PriceItem = [string, number, string?];
 
 export type Service = {
   slug: Slug;
@@ -31,6 +31,7 @@ export type Service = {
   providers: string[];
   items?: PriceItem[];
   byProvider?: Record<string, PriceItem[]>;
+  dbServiceId?: string;
 };
 
 const rb = (value: number) => value.toLocaleString("id-ID");
@@ -302,11 +303,6 @@ export function detectOperator(raw: string): string | null {
 export function priceList(service: Service, provider: string | null): PriceItem[] {
   if (!provider) return service.items ?? [];
   return service.byProvider?.[provider] ?? service.items ?? [];
-}
-
-export function simulateBill(seed: string): number {
-  const total = [...seed].reduce((sum, character) => sum + character.charCodeAt(0), 0);
-  return 75000 + ((total * 137) % 250000);
 }
 
 export function providerLogoClass(name: string): string | null {
